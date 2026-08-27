@@ -1,0 +1,12 @@
+# Core — reproduces Figure 5f-h, Figure 6e/f, Figure 8 and Supplementary Figure 4.
+numpy>=1.24
+pandas>=2.0
+scipy>=1.10
+matplotlib>=3.7
+pillow>=9.0            # Figure 8a rho-header text metrics
+
+# Figure 6g-n spatial-TME survival analysis (figure6_survival/) only.
+# Not needed for the core figures above.
+lifelines>=0.27
+scikit-learn>=1.2
+openpyxl>=3.1

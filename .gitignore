@@ -1,0 +1,10 @@
+# Python
+__pycache__/
+*.py[cod]
+.DS_Store
+
+# Generated figures — regenerable from the scripts; not part of the repository.
+figures/
+
+# Figure 6 survival: local patient-data root (not redistributed).
+figure6_survival/lung_data/
