@@ -1,0 +1,27 @@
+[project]
+name = "lucaid-analysis"
+version = "0.1.0"
+description = "Analysis code and anonymized data to reproduce the slide-level result panels of the LUCAID study"
+readme = "README.md"
+license = "CC-BY-NC-4.0"
+requires-python = ">=3.11"
+# Core: Figure 5f-h, Figure 6e/f, Figure 8 and Supplementary Figure 4.
+dependencies = [
+    "matplotlib>=3.7",
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "pillow>=9.0",  # Figure 8a rho-header text metrics
+    "scipy>=1.10",
+]
+
+[dependency-groups]
+# Figure 6g-n spatial-TME survival analysis (figure6_survival/) only.
+survival = [
+    "lifelines>=0.27",
+    "openpyxl>=3.1",
+    "scikit-learn>=1.2",
+]
+
+[tool.uv]
+# Scripts, not an installable package.
+package = false
