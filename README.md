@@ -18,14 +18,17 @@ regenerates the panels of one figure from a small, fully anonymized table.
 
 ## Quick start
 
-```bash
-python -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
+Dependencies are pinned with hashes in `uv.lock`. Install them with
+[uv](https://docs.astral.sh/uv/):
 
-python figure5_cellularity_kras.py
-python figure6_regression_grading.py
-python figure8_clinical_validation.py
-python supplementary_figure4.py
+```bash
+uv sync --locked                    # core figures
+uv sync --locked --group survival   # also figure6_survival/
+
+uv run python figure5_cellularity_kras.py
+uv run python figure6_regression_grading.py
+uv run python figure8_clinical_validation.py
+uv run python supplementary_figure4.py
 ```
 
 Each script reads its table from `data/`, writes PNG + PDF + SVG panels (and a
@@ -42,6 +45,7 @@ lucaid-analysis/
 ├── supplementary_figure4.py          # Suppl Fig 4a,b
 ├── style.py                          # shared figure style (palette, export)
 ├── common.py                         # thresholds, categories, MAE + bootstrap CI
+├── pyproject.toml, uv.lock           # dependencies, locked with hashes
 ├── data/                             # anonymized inputs (+ DATA_DICTIONARY.md)
 ├── figures/                          # generated panels
 └── figure6_survival/                 # Fig 6g-n spatial-TME survival analysis

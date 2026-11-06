@@ -29,7 +29,8 @@ so the Cox cut and the plotted KM cut are always identical.
 
 ## Dependencies
 
-`pandas numpy scipy scikit-learn lifelines matplotlib openpyxl` (the `openpyxl`
+`pandas numpy scipy scikit-learn lifelines matplotlib openpyxl`, installed from
+the lock file with `uv sync --locked --group survival` in the repository root (the `openpyxl`
 requirement is only for `fig6J_quadrant.py`, which reads a PD-L1 `.xlsx`). Arial is
 used if installed and falls back to the default sans-serif otherwise.
 
@@ -79,12 +80,12 @@ rather than being forced into the low group).
 export LUNG_DATA=/path/to/lung_data        # per-patient tables live here
 export PYTHONPATH=$PWD                      # so the scripts can import lung_split
 
-python build_patient_landscape.py          # freeze the per-patient landscape
-python analysis_novel_screen.py            # -> lung_novel_screen.csv (586-metric FDR screen)
-python forest_uicc_analysis.py             # -> lung_forest_uicc_panel.csv (+ _uicc.csv)
-python individual_km_analysis.py           # -> lung_individual_km_metrics.csv
-python fig6CD_stackbar_landscape.py        # 6g/6h
-python fig6i_forest_single.py              # 6i
-python fig6FI_km_plot.py                   # 6j–m
-python fig6J_quadrant.py                   # 6n
+uv run python build_patient_landscape.py          # freeze the per-patient landscape
+uv run python analysis_novel_screen.py            # -> lung_novel_screen.csv (586-metric FDR screen)
+uv run python forest_uicc_analysis.py             # -> lung_forest_uicc_panel.csv (+ _uicc.csv)
+uv run python individual_km_analysis.py           # -> lung_individual_km_metrics.csv
+uv run python fig6CD_stackbar_landscape.py        # 6g/6h
+uv run python fig6i_forest_single.py              # 6i
+uv run python fig6FI_km_plot.py                   # 6j–m
+uv run python fig6J_quadrant.py                   # 6n
 ```
