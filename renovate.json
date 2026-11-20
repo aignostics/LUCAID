@@ -1,24 +1,10 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-
-  // This repo is public. Mend does not apply the org config (aignostics/renovate-config,
-  // org-inherited-config.json) to public repos, so this file holds the parts of it that this repo
-  // needs. Copied from aignostics/renovate-config@74f5148e51fb. Left out:
-  //   - onboardingPrTitle: a global option. A repo config cannot set it.
-  //   - hostRules: they name internal registries and use {{ secrets.* }} from the Mend org settings.
-  //     This repo installs only from PyPI.
-  //   - customManagers: no file in this repo has a "# renovate:" or "_renovate" annotation.
-  //   - pre-commit: this repo has no .pre-commit-config.yaml.
-  //   - packageRules for GitHub Actions, the custom managers, Docker and the registry mirrors,
-  //     git-tags, npm, Terraform and Cloud SQL: this repo has no dependency that they match.
-  // To update the copy, compare it with the new org config.
   "extends": ["config:best-practices"],
   "timezone": "Europe/Berlin",
   "minimumReleaseAge": "5 days",
 
-  // Conventional Commits for every Renovate commit and PR title. The org ruleset rejects a PR
-  // whose commits do not match "<type>: <lowercase description>", and a squash merge uses the
-  // PR title as the commit message.
+  // Conventional Commits for every Renovate commit and PR title. 
   "semanticCommits": "enabled",
 
   // Query osv.dev for CVEs in all tracked dependencies and raise immediate fix PRs when a
