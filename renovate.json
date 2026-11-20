@@ -1,6 +1,62 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": [
-    "config:recommended"
+  "extends": ["config:best-practices"],
+  "timezone": "Europe/Berlin",
+  "minimumReleaseAge": "5 days",
+
+  // Conventional Commits for every Renovate commit and PR title. 
+  "semanticCommits": "enabled",
+
+  // Query osv.dev for CVEs in all tracked dependencies and raise immediate fix PRs when a
+  // vulnerability is found. The Dependency Dashboard shows all known CVEs.
+  // https://docs.renovatebot.com/configuration-options/#osvvulnerabilityalerts
+  "osvVulnerabilityAlerts": true,
+  "dependencyDashboard": { "osvVulnerabilitySummary": "all" },
+
+  // A vulnerability fix PR skips the 5-day wait by design, so the fixed version can be hours old.
+  // Label it, say so in the body, and keep automerge off, so a person checks the fix before the merge.
+  // The note goes in prHeader, not prBodyNotes: Renovate applies vulnerabilityAlerts as `force`,
+  // which replaces keys instead of merging them, so a prBodyNotes here drops the advisory text.
+  // https://docs.renovatebot.com/configuration-options/#vulnerabilityalerts
+  "vulnerabilityAlerts": {
+    "addLabels": ["security"],
+    "automerge": false,
+    "prHeader": "> [!IMPORTANT]\n> **Security fix, opened without the 5-day wait**\n>\n> Renovate opened this PR because a published advisory affects the current version. It skipped the [**minimum release age** (`minimumReleaseAge`)](https://docs.renovatebot.com/key-concepts/minimum-release-age/) check, so the fixed version might be younger than 5 days. Read the advisory below, check the release age and the upstream release, then merge by hand."
+  },
+
+  // Release-age wait. Every update waits minimumReleaseAge (above) before its PR exists, so a
+  // compromised release is caught by others first. The PR opens as soon as the branch exists,
+  // the branch is created only once a release has passed the wait, and a release without a
+  // registry timestamp counts as too young.
+  // https://docs.renovatebot.com/configuration-options/#prcreation
+  // https://docs.renovatebot.com/configuration-options/#internalchecksfilter
+  // https://docs.renovatebot.com/configuration-options/#minimumreleaseagebehaviour
+  "prCreation": "immediate",
+  "internalChecksFilter": "strict",
+  "minimumReleaseAgeBehaviour": "timestamp-required",
+
+  // Label every Renovate PR with "renovate" plus its manager.
+  "addLabels": ["renovate", "{{{manager}}}"],
+
+  // GitHub native auto-merge once all branch rules are met (checks green and an approval).
+  // https://docs.renovatebot.com/configuration-options/#platformautomerge
+  "automerge": true,
+  "automergeStrategy": "squash",
+
+  // Rebase only when the default branch and the PR branch conflict.
+  // https://docs.renovatebot.com/configuration-options/#rebasewhen
+  "rebaseWhen": "conflicted",
+
+  "packageRules": [
+    // Under timestamp-required, Renovate keeps these update types pending forever, because they
+    // carry no release timestamp (renovatebot/renovate#45236). config:best-practices turns on
+    // weekly lock file maintenance, so without this rule uv.lock would never be refreshed.
+    // uv.lock itself waits 5 days through exclude-newer in pyproject.toml.
+    // Remove it when renovatebot/renovate#46645 is released.
+    {
+      "description": ["Pin, digest, pinDigest and lock file maintenance updates have no release timestamp: do not hold them"],
+      "matchUpdateTypes": ["pin", "digest", "pinDigest", "lockFileMaintenance"],
+      "minimumReleaseAgeBehaviour": "timestamp-optional"
+    }
   ]
 }
