@@ -23,5 +23,6 @@ survival = [
 ]
 
 [tool.uv]
+exclude-newer = "5 days" # wait 5 days before a new release enters the lock file
 # Scripts, not an installable package.
 package = false
